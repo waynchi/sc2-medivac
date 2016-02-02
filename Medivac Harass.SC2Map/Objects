@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlacedObjects Version="27">
+    <ObjectUnit Id="1" Position="60.5,63.5,0" Rotation="5.4975" Scale="1,1,1" UnitType="CommandCenter" Player="2"/>
+    <ObjectUnit Id="16" Position="76.7443,60.1481,0" Rotation="5.1196" Scale="1,1,1" UnitType="Marine" Player="1"/>
+    <ObjectUnit Id="17" Position="77.6525,59.8884,0" Rotation="1.197" Scale="1,1,1" UnitType="Marine" Player="1"/>
+    <ObjectUnit Id="18" Position="78.6408,59.756,0" Rotation="0.8007" Scale="1,1,1" UnitType="Marine" Player="1"/>
+    <ObjectUnit Id="19" Position="79.8737,59.5393,0" Rotation="3.7214" Scale="1,1,1" UnitType="Marine" Player="1"/>
+    <ObjectUnit Id="20" Position="81.0634,59.2805,0" Rotation="2.5722" Scale="1,1,1" UnitType="Marine" Player="1"/>
+    <ObjectUnit Id="21" Position="75.532,60.3232,0" Rotation="1.6726" Scale="1,1,1" UnitType="Marine" Player="1"/>
+    <ObjectUnit Id="22" Position="74.5466,60.633,0" Rotation="4.9672" Scale="1,1,1" UnitType="Marine" Player="1"/>
+    <ObjectUnit Id="23" Position="73.3344,61.0314,0" Rotation="0.128" Scale="1,1,1" UnitType="Marine" Player="1"/>
+    <ObjectUnit Id="15" Position="85.059,58.3671,0" Rotation="5.255" Scale="1,1,1" UnitType="Medivac" Player="1"/>
+    <ObjectUnit Id="2" Variation="4" Position="59,69.5,0" Scale="1,1,1" UnitType="MineralField"/>
+    <ObjectUnit Id="3" Position="61,69.5,0" Scale="1,1,1" UnitType="MineralField"/>
+    <ObjectUnit Id="4" Variation="2" Position="64,69.5,0" Scale="1,1,1" UnitType="MineralField"/>
+    <ObjectUnit Id="5" Variation="4" Position="56,69.5,0" Scale="1,1,1" UnitType="MineralField"/>
+    <ObjectUnit Id="6" Variation="2" Position="54,66.5,0" Scale="1,1,1" UnitType="MineralField"/>
+    <ObjectUnit Id="7" Variation="8" Position="67,66.5,0" Scale="1,1,1" UnitType="MineralField"/>
+    <ObjectUnit Id="8" Position="57.3967,64.9382,0" Rotation="2.7106" Scale="1,1,1" UnitType="SCV" Player="2"/>
+    <ObjectUnit Id="9" Position="58.1843,66.7458,0" Rotation="4.6147" Scale="1,1,1" UnitType="SCV" Player="2"/>
+    <ObjectUnit Id="10" Position="59.46,67.0427,0" Rotation="2.6687" Scale="1,1,1" UnitType="SCV" Player="2"/>
+    <ObjectUnit Id="11" Position="61.0146,67.0908,0" Rotation="5.3728" Scale="1,1,1" UnitType="SCV" Player="2"/>
+    <ObjectUnit Id="12" Position="62.7131,66.8073,0" Rotation="6.2463" Scale="1,1,1" UnitType="SCV" Player="2"/>
+    <ObjectUnit Id="13" Position="63.6342,65.5842,0" Rotation="4.355" Scale="1,1,1" UnitType="SCV" Player="2"/>
+    <ObjectUnit Id="14" Position="63.7988,63.9345,0" Rotation="4.2888" Scale="1,1,1" UnitType="SCV" Player="2"/>
+    <ObjectPoint Id="24" Position="60.63,72.17,0" Scale="1,1,1" Type="Normal" Name="Medivac Destination" Color="0,0,0,0"/>
+    <ObjectPoint Id="25" Position="71.6098,61.38,0" Scale="1,1,1" Type="Normal" Name="Medivac Pickup" Color="0,0,0,0"/>
+    <ObjectPoint Id="26" Position="83.0598,59.0598,0" Scale="1,1,1" Type="Normal" Name="Medivac Start" Color="0,0,0,0"/>
+    <ObjectPoint Id="27" Position="59.6198,58.0397,0" Scale="1,1,1" Type="Normal" Name="ZergSpawn" Color="0,0,0,0"/>
+    <Group Type="ObjectUnit" Name="SCV Group" Id="1">
+        <GroupObject Id="8"/>
+        <GroupObject Id="9"/>
+        <GroupObject Id="10"/>
+        <GroupObject Id="11"/>
+        <GroupObject Id="12"/>
+        <GroupObject Id="13"/>
+        <GroupObject Id="14"/>
+    </Group>
+</PlacedObjects>

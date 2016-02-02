@@ -1,0 +1,426 @@
+//==================================================================================================
+// 
+// Generated Map Script
+// 
+// Name:   Just Another StarCraft II Map
+// 
+//==================================================================================================
+include "TriggerLibs/NativeLib"
+include "TriggerLibs/LibertyLib"
+
+//--------------------------------------------------------------------------------------------------
+// Library Initialization
+//--------------------------------------------------------------------------------------------------
+void InitLibs () {
+    libNtve_InitLib();
+    libLbty_InitLib();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Global Variables
+//--------------------------------------------------------------------------------------------------
+unit gv_medivac;
+unitgroup gv_sCVGroup;
+
+void InitGlobals () {
+    gv_medivac = UnitFromId(15);
+    gv_sCVGroup = UnitGroupFromId(1);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger Variables
+//--------------------------------------------------------------------------------------------------
+trigger gt_Initialization;
+trigger gt_GatherMinerals;
+trigger gt_Defeat;
+trigger gt_Victory;
+trigger gt_MedivacGo;
+trigger gt_MedivacDrop;
+trigger gt_MedivacFlee;
+trigger gt_MedivacDestination;
+trigger gt_MedivacPickUp;
+trigger gt_PickupMarine0;
+trigger gt_PickupMarine1;
+trigger gt_PickupMarine2;
+trigger gt_PickupMarine3;
+trigger gt_PickupMarine4;
+trigger gt_PickupMarine5;
+trigger gt_PickupMarine6;
+trigger gt_PickupMarine7;
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Initialization
+//--------------------------------------------------------------------------------------------------
+bool gt_Initialization_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    VisEnable(c_visTypeFog, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Initialization_Init () {
+    gt_Initialization = TriggerCreate("gt_Initialization_Func");
+    TriggerAddEventMapInit(gt_Initialization);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Gather Minerals
+//--------------------------------------------------------------------------------------------------
+bool gt_GatherMinerals_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libLbty_gf_OrderWorkerstoGatherNearbyResources(RegionEntireMap(), 2);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_GatherMinerals_Init () {
+    gt_GatherMinerals = TriggerCreate("gt_GatherMinerals_Func");
+    TriggerAddEventMapInit(gt_GatherMinerals);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Defeat
+//--------------------------------------------------------------------------------------------------
+bool gt_Defeat_Func (bool testConds, bool runActions) {
+    // Conditions
+    if (testConds) {
+        if (!((UnitIsAlive(UnitFromId(15)) != true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    GameOver(1, c_gameOverDefeat, true, true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Defeat_Init () {
+    gt_Defeat = TriggerCreate("gt_Defeat_Func");
+    TriggerAddEventUnitDied(gt_Defeat, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_Victory_Func (bool testConds, bool runActions) {
+    // Conditions
+    if (testConds) {
+        if (!((libNtve_gf_UnitGroupIsDead(UnitGroupFromId(1)) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    GameOver(1, c_gameOverVictory, true, true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Victory_Init () {
+    gt_Victory = TriggerCreate("gt_Victory_Func");
+    TriggerAddEventUnitDied(gt_Victory, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: MedivacGo
+//--------------------------------------------------------------------------------------------------
+bool gt_MedivacGo_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(gv_medivac, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(26)), c_orderQueueReplace);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_MedivacGo_Init () {
+    gt_MedivacGo = TriggerCreate("gt_MedivacGo_Func");
+    TriggerAddEventMapInit(gt_MedivacGo);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: MedivacDrop
+//--------------------------------------------------------------------------------------------------
+bool gt_MedivacDrop_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libNtve_gf_UnitCreateFacingPoint(20, "Zergling", 0, 2, PointFromId(27), UnitGetPosition(EventUnit()));
+    UnitIssueOrder(gv_medivac, OrderTargetingPoint(AbilityCommand("MedivacTransport", 2), PointFromId(24)), c_orderQueueAddToEnd);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_MedivacDrop_Init () {
+    gt_MedivacDrop = TriggerCreate("gt_MedivacDrop_Func");
+    TriggerAddEventUnitRangePoint(gt_MedivacDrop, UnitRefFromVariable("gv_medivac"), PointFromId(24), 1.0, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: MedivacFlee
+//--------------------------------------------------------------------------------------------------
+bool gt_MedivacFlee_Func (bool testConds, bool runActions) {
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetOwner(EventUnit()) == 1))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(gv_medivac, OrderTargetingUnit(AbilityCommand("MedivacTransport", 0), EventUnit()), c_orderQueueAddToEnd);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_MedivacFlee_Init () {
+    gt_MedivacFlee = TriggerCreate("gt_MedivacFlee_Func");
+    TriggerAddEventUnitAttacked2(gt_MedivacFlee, null, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: MedivacDestination
+//--------------------------------------------------------------------------------------------------
+bool gt_MedivacDestination_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(gv_medivac, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(24)), c_orderQueueAddToEnd);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_MedivacDestination_Init () {
+    gt_MedivacDestination = TriggerCreate("gt_MedivacDestination_Func");
+    TriggerAddEventUnitRangePoint(gt_MedivacDestination, UnitRefFromVariable("gv_medivac"), PointFromId(25), 1.0, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: MedivacPickUp
+//--------------------------------------------------------------------------------------------------
+bool gt_MedivacPickUp_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(gv_medivac, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(25)), c_orderQueueAddToEnd);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_MedivacPickUp_Init () {
+    gt_MedivacPickUp = TriggerCreate("gt_MedivacPickUp_Func");
+    TriggerAddEventUnitRangePoint(gt_MedivacPickUp, UnitRefFromVariable("gv_medivac"), PointFromId(26), 1.0, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: PickupMarine0
+//--------------------------------------------------------------------------------------------------
+bool gt_PickupMarine0_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(gv_medivac, OrderTargetingUnit(AbilityCommand("MedivacTransport", 0), EventUnitRangeUnit()), c_orderQueueAddToFront);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_PickupMarine0_Init () {
+    gt_PickupMarine0 = TriggerCreate("gt_PickupMarine0_Func");
+    TriggerAddEventUnitRange(gt_PickupMarine0, UnitRefFromVariable("gv_medivac"), UnitFromId(20), 1.0, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: PickupMarine1
+//--------------------------------------------------------------------------------------------------
+bool gt_PickupMarine1_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(gv_medivac, OrderTargetingUnit(AbilityCommand("MedivacTransport", 0), EventUnitRangeUnit()), c_orderQueueAddToFront);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_PickupMarine1_Init () {
+    gt_PickupMarine1 = TriggerCreate("gt_PickupMarine1_Func");
+    TriggerAddEventUnitRange(gt_PickupMarine1, UnitRefFromVariable("gv_medivac"), UnitFromId(19), 1.0, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: PickupMarine2
+//--------------------------------------------------------------------------------------------------
+bool gt_PickupMarine2_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(gv_medivac, OrderTargetingUnit(AbilityCommand("MedivacTransport", 0), EventUnitRangeUnit()), c_orderQueueAddToFront);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_PickupMarine2_Init () {
+    gt_PickupMarine2 = TriggerCreate("gt_PickupMarine2_Func");
+    TriggerAddEventUnitRange(gt_PickupMarine2, UnitRefFromVariable("gv_medivac"), UnitFromId(18), 1.0, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: PickupMarine3
+//--------------------------------------------------------------------------------------------------
+bool gt_PickupMarine3_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(gv_medivac, OrderTargetingUnit(AbilityCommand("MedivacTransport", 0), EventUnitRangeUnit()), c_orderQueueAddToFront);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_PickupMarine3_Init () {
+    gt_PickupMarine3 = TriggerCreate("gt_PickupMarine3_Func");
+    TriggerAddEventUnitRange(gt_PickupMarine3, UnitRefFromVariable("gv_medivac"), UnitFromId(17), 1.0, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: PickupMarine4
+//--------------------------------------------------------------------------------------------------
+bool gt_PickupMarine4_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(gv_medivac, OrderTargetingUnit(AbilityCommand("MedivacTransport", 0), EventUnitRangeUnit()), c_orderQueueAddToFront);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_PickupMarine4_Init () {
+    gt_PickupMarine4 = TriggerCreate("gt_PickupMarine4_Func");
+    TriggerAddEventUnitRange(gt_PickupMarine4, UnitRefFromVariable("gv_medivac"), UnitFromId(16), 1.0, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: PickupMarine5
+//--------------------------------------------------------------------------------------------------
+bool gt_PickupMarine5_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(gv_medivac, OrderTargetingUnit(AbilityCommand("MedivacTransport", 0), EventUnitRangeUnit()), c_orderQueueAddToFront);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_PickupMarine5_Init () {
+    gt_PickupMarine5 = TriggerCreate("gt_PickupMarine5_Func");
+    TriggerAddEventUnitRange(gt_PickupMarine5, UnitRefFromVariable("gv_medivac"), UnitFromId(21), 1.0, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: PickupMarine6
+//--------------------------------------------------------------------------------------------------
+bool gt_PickupMarine6_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(gv_medivac, OrderTargetingUnit(AbilityCommand("MedivacTransport", 0), EventUnitRangeUnit()), c_orderQueueAddToFront);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_PickupMarine6_Init () {
+    gt_PickupMarine6 = TriggerCreate("gt_PickupMarine6_Func");
+    TriggerAddEventUnitRange(gt_PickupMarine6, UnitRefFromVariable("gv_medivac"), UnitFromId(22), 1.0, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: PickupMarine7
+//--------------------------------------------------------------------------------------------------
+bool gt_PickupMarine7_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(gv_medivac, OrderTargetingUnit(AbilityCommand("MedivacTransport", 0), EventUnitRangeUnit()), c_orderQueueAddToFront);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_PickupMarine7_Init () {
+    gt_PickupMarine7 = TriggerCreate("gt_PickupMarine7_Func");
+    TriggerAddEventUnitRange(gt_PickupMarine7, UnitRefFromVariable("gv_medivac"), UnitFromId(23), 1.0, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger Initialization
+//--------------------------------------------------------------------------------------------------
+void InitTriggers () {
+    gt_Initialization_Init();
+    gt_GatherMinerals_Init();
+    gt_Defeat_Init();
+    gt_Victory_Init();
+    gt_MedivacGo_Init();
+    gt_MedivacDrop_Init();
+    gt_MedivacFlee_Init();
+    gt_MedivacDestination_Init();
+    gt_MedivacPickUp_Init();
+    gt_PickupMarine0_Init();
+    gt_PickupMarine1_Init();
+    gt_PickupMarine2_Init();
+    gt_PickupMarine3_Init();
+    gt_PickupMarine4_Init();
+    gt_PickupMarine5_Init();
+    gt_PickupMarine6_Init();
+    gt_PickupMarine7_Init();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Map Initialization
+//--------------------------------------------------------------------------------------------------
+void InitMap () {
+    InitLibs();
+    InitGlobals();
+    InitTriggers();
+}

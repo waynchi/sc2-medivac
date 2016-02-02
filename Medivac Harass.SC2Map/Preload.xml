@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Preload>
+<Actor id="SYSTEM_ActorConfig"/>
+<Terrain id="BelShirEx2"/>
+<Unit id="CommandCenter"/>
+<Unit id="SCV"/>
+<Unit id="Marine"/>
+<Unit id="Medivac"/>
+<Unit id="Zergling"/>
+<Unit id="MineralField" Variations="0,2,4,8"/>
+</Preload>
